@@ -1,6 +1,4 @@
 import telebot
-#from telebot import apihelper
-#apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
 
 import constants
 import kb
