@@ -1,6 +1,4 @@
 import telebot
-#from telebot import apihelper
-#apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
 
 import constants
 import kb
@@ -322,7 +320,7 @@ def handle_text(message):
 
 # ELSE
     else:
-        bot.send_message(message.chat.id, 'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
+        bot.send_message(message.chat.id, 'fgfg')
 
 
 @bot.message_handler(content_types=['photo', 'document'])
