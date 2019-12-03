@@ -320,7 +320,7 @@ def handle_text(message):
 
 # ELSE
     else:
-        bot.send_message(message.chat.id, 'fgfg')
+        bot.send_message(message.chat.id, 'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
 
 
 @bot.message_handler(content_types=['photo', 'document'])
