@@ -1,5 +1,4 @@
 import telebot
-
 import constants
 import kb
 import menu
@@ -67,6 +66,11 @@ def back_message(message):
         menu.kb13_1 = False
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
     elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
+        menu.start = True
+        menu.kb211 = False
+        menu.kb212 = False
+        menu.kb221 = False
+        menu.kb222 = False
         bot.send_message(message.chat.id, reply.r02, reply_markup=kb.keyboard2)
     elif menu.kb4 == True:
         menu.kb4 = False
