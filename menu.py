@@ -1,4 +1,4 @@
-# Первое меню
+ #Первое меню
 start = True
 kb1 = False
 kb2 = False

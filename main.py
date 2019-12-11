@@ -6,11 +6,25 @@ import chatID
 import nameCategory
 import reply
 import re
+import dj_database_url
+import psycopg2
+
+DATABASELINK = "postgres://jaffbnzlsirado:7439114eb04736d874c0a60ef1a437f66e934d269c11eab062351ee57f5e955f@ec2-174-129-254-250.compute-1.amazonaws.com:5432/d6gacovvq3jc2n"
+
+
+db_info = dj_database_url.config(default=DATABASELINK)
+connection = psycopg2.connect(database=db_info.get('d6gacovvq3jc2n'),
+    user=db_info.get('jaffbnzlsirado'),
+    password=db_info.get('7439114eb04736d874c0a60ef1a437f66e934d269c11eab062351ee57f5e955f'),
+    host=db_info.get('ec2-174-129-254-250.compute-1.amazonaws.com'),
+    port=db_info.get('5432'))
+cursor = connection.cursor()
 
 bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    cursor.execute('CREATE TABLE public.variables (id integer NOT NULL,start boolean NOT NULL,kb1 boolean NOT NULL,kb2 boolean NOT NULL,kb3 boolean NOT NULL,kb4 boolean NOT NULL,kb4_2 boolean NOT NULL,kb111 boolean NOT NULL,kb112 boolean NOT NULL,kb121 boolean NOT NULL,kb122 boolean NOT NULL,kb13 boolean NOT NULL,kb13_1 boolean NOT NULL,kb211 boolean NOT NULL,kb212 boolean NOT NULL,kb221 boolean NOT NULL,kb222 boolean NOT NULL,number_auto character varying NOT NULL,tel character varying NOT NULL,condition character varying NOT NULL);')
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
