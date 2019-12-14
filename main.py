@@ -69,7 +69,11 @@ def back_message(message):
         menu.kb13_1 = False
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
     elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
-        bot.send_message(message.chat.id, reply.r02, reply_markup=kb.keyboard2)
+        bot.send_message(message.chat.id, reply.r02, reply_markup = kb.keyboard2)
+    elif menu.kb317 == True
+        menu.kb317 = False
+        menu.start = True
+        bot.send_message(message.chat.id, reply.r03, reply_markup = kb.keyboard3)
     elif menu.kb4 == True:
         menu.kb4 = False
         menu.start = True
@@ -300,6 +304,16 @@ def handle_text(message):
         bot.send_message(message.chat.id, reply.r315)
     elif message.text == nameCategory.c316:
         bot.send_message(message.chat.id, reply.r316)
+    elif message.text == nameCategory.c317:
+        menu.kb317 = True
+        menu.start = False
+        bot.send_message(message.chat.id, reply.r317, reply_markup = kb.keyboardL)
+    elif menu.kb317 == True:
+        menu.kb317 = False
+        menu.start = True
+        bot.send_message(message.chat.id, reply.r3_17, reply_markup = kb.keyboard0)
+        bot.send_message(chatID.Dmitriy, "ID = " + message.chat.id + " " + message.text)   
+
 
 # keyboard 4 Заправка автомобиля
     elif message.text == nameCategory.c41:

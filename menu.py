@@ -15,6 +15,7 @@ kb211 = False
 kb212 = False
 kb221 = False
 kb222 = False
+kb317 = False
 number_auto = ""
 tel = ""
 condition = ""

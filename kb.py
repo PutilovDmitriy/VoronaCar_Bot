@@ -39,6 +39,7 @@ keyboard3.row(nameCategory.c313)
 keyboard3.row(nameCategory.c314)
 keyboard3.row(nameCategory.c315)
 keyboard3.row(nameCategory.c316)
+keyboard3.row(nameCategory.c317)
 keyboard3.row('/Назад')
 
 #keyboard 4 Заправка автомобиля
