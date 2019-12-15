@@ -316,8 +316,9 @@ def handle_text(message):
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
+        ID = str(message.chat.id)
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chatID.Dmitriy, message.chat.id + " " + message.text)
+        bot.send_message(chatID.Dmitriy, ID + " " + message.text)
 
 
 
