@@ -316,9 +316,8 @@ def handle_text(message):
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
-        menu.userIdChat = message.chat.id
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chat_id=chatID.Dmitriy, text=message.text + " " + menu.userIdChat, reply_markup=kb.keyboard0)
+        bot.send_message(chatID.Dmitriy, nameCategory.c317 + " " + message.text)
 
 
 
