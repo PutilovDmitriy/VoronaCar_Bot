@@ -1,4 +1,4 @@
- #Первое меню
+# Первое меню
 start = True
 kb1 = False
 kb2 = False
@@ -15,6 +15,7 @@ kb211 = False
 kb212 = False
 kb221 = False
 kb222 = False
+kb317 = False
 number_auto = ""
 tel = ""
 condition = ""
