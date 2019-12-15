@@ -317,7 +317,7 @@ def handle_text(message):
         menu.kb317 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chatID.Dmitriy, nameCategory.c317 + " " + message.text)
+        bot.send_message(chatID.Dmitriy, message.chat.id + " " + message.text)
 
 
 
