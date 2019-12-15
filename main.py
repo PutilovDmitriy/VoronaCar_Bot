@@ -316,8 +316,9 @@ def handle_text(message):
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
+        menu.userIdChat = message.chat.id
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chat_id=chatID.Dmitriy, text=message.text + " " + message.chat.id, reply_markup=kb.keyboard0)
+        bot.send_message(chat_id=chatID.Dmitriy, text=message.text + " " + menu.userIdChat, reply_markup=kb.keyboard0)
 
 
 
@@ -352,7 +353,7 @@ def handle_text(message):
         admin = False
         admin_text = False
         menu.start = True
-        chatIdUser = 0
+        useridshat = 0
         bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
     elif menu.admin_text == True:
         bot.send_message(menu.chatIdUser, message.text)

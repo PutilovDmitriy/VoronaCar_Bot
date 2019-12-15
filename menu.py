@@ -16,6 +16,7 @@ kb212 = False
 kb221 = False
 kb222 = False
 kb317 = False
+userIdChat = ""
 number_auto = ""
 tel = ""
 condition = ""
