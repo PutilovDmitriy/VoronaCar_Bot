@@ -28,6 +28,7 @@ def start_message(message):
     menu.kb212 = False
     menu.kb221 = False
     menu.kb222 = False
+    menu.kb317 = False
     menu.tel = ""
     menu.number_auto = ""
     menu.condition = ""
