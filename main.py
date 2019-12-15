@@ -342,7 +342,7 @@ def handle_text(message):
     elif message.text == "admin_start":
         menu.admin = True
         menu.start = False
-        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markyp=kb.keyboardL)
+        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markyp = kb.keyboardL)
     elif menu.admin == True:
         menu.admin = False
         menu.admin_text = True
