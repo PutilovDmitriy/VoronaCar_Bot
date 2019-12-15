@@ -342,18 +342,19 @@ def handle_text(message):
     elif message.text == "admin_start":
         menu.admin = True
         menu.start = False
-        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markup = kb.keyboardL)
+        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markup = kb.keyboardAdmin)
     elif menu.admin == True:
         menu.admin = False
         menu.admin_text = True
         menu.chatIdUser = int(message.text)
-    elif menu.admin_text == True:
-        bot.send_message(menu.chatIdUser, message.text)
     elif message.text == "admin_stop":
         admin = False
         admin_text = False
+        menu.start = True
         chatIdUser = 0
-        bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup= kb.keyboard0)
+        bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
+    elif menu.admin_text == True:
+        bot.send_message(menu.chatIdUser, message.text)
 # ELSE
     else:
         bot.send_message(message.chat.id, 'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')

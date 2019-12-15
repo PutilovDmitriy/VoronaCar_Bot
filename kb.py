@@ -52,3 +52,7 @@ keyboard4.row('/Назад')
 keyboardL = telebot.types.ReplyKeyboardMarkup(True)
 keyboardL.row('/start')
 keyboardL.row('/Назад')
+
+#keyboatd admin
+keyboardAdmin = telebot.types.ReplyKeyboardMarkup(True)
+keyboardAdmin.row('admin_stop')
