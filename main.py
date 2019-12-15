@@ -9,7 +9,6 @@ import chatID
 import nameCategory
 import reply
 import re
-#ПОЧЕМУ ТАК
 
 bot = telebot.TeleBot(constants.token)
 
@@ -314,7 +313,7 @@ def handle_text(message):
         menu.kb317 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.r3_17, reply_markup = kb.keyboard0)
-        bot.send_message(chatID.Dmitriy, "ID = " + message.chat.id + " " + message.text)   
+        bot.send_message(chatID.Dmitriy, "ID = " + message.chat.id + " " + message.text)
 
 
 # keyboard 4 Заправка автомобиля
