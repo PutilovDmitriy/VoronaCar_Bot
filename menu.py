@@ -19,3 +19,7 @@ kb317 = False
 number_auto = ""
 tel = ""
 condition = ""
+#admin
+admin = False
+admin_text = False
+chatIdUser = 0

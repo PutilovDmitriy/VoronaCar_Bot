@@ -1,4 +1,5 @@
 import telebot
+
 #from telebot import apihelper
 #apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
 
@@ -32,6 +33,9 @@ def start_message(message):
     menu.tel = ""
     menu.number_auto = ""
     menu.condition = ""
+    admin = False
+    admin_text = False
+    chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
 
 
@@ -334,7 +338,22 @@ def handle_text(message):
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb4_2 == True:
         bot.send_message(message.chat.id, reply.r4_2)
-
+#admin send_message
+    elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
+        menu.admin = True
+        menu.start = False
+        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markyp = kb.keyboardL)
+    elif menu.admin == True:
+        menu.admin = False
+        menu.admin_text = True
+        menu.chatIdUser = int(message.text)
+    elif menu.admin_text == True:
+        bot.send_message(menu.chatIdUser, message.text)
+    elif message.text == "admin_stop":
+        admin = False
+        admin_text = False
+        chatIdUser = 0
+        bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markyp = kb.keyboard0)
 # ELSE
     else:
         bot.send_message(message.chat.id, 'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
@@ -349,6 +368,5 @@ def handle_docs_audio(message):
         bot.send_message(chatID.Dmitriy, menu.tel)
         bot.forward_message(chatID.Dmitriy, message.chat.id, message.message_id)
         menu.tel = ""
-
 
 bot.polling(none_stop=True, interval=0)
