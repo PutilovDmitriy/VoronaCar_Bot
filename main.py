@@ -75,7 +75,7 @@ def back_message(message):
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
     elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
         bot.send_message(message.chat.id, reply.r02, reply_markup = kb.keyboard2)
-    elif menu.kb317 == True
+    elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.r03, reply_markup = kb.keyboard3)
