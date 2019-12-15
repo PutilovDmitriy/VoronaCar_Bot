@@ -9,6 +9,7 @@ import chatID
 import nameCategory
 import reply
 import re
+#ПОЧЕМУ ТАК
 
 bot = telebot.TeleBot(constants.token)
 
