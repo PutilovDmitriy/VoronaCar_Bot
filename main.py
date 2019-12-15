@@ -312,12 +312,13 @@ def handle_text(message):
     elif message.text == nameCategory.c317:
         menu.kb317 = True
         menu.start = False
-        bot.send_message(message.chat.id, reply.r317, reply_markup = kb.keyboardL)
+        bot.send_message(message.chat.id, reply.r317, reply_markup=kb.keyboardL)
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
-        bot.send_message(message.chat.id, reply.r3_17, reply_markup = kb.keyboard0)
-        bot.send_message(chat_id=chatID.Dmitriy, text= "ID = " + int(message.chat.id) + " " + message.text)
+        bot.send_message(message.chat.id, reply.r3_17)
+        bot.send_message(chat_id=chatID.Dmitriy, text=message.text + " " + message.chat.id, reply_markup=kb.keyboard0)
+
 
 
 # keyboard 4 Заправка автомобиля
