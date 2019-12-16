@@ -1,4 +1,3 @@
-import psycopg2 as psycopg2
 import telebot
 
 import constants
