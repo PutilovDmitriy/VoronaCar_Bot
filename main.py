@@ -1,7 +1,10 @@
 import telebot
 
-#from telebot import apihelper
-#apihelper.proxy = {'https': 'socks5h://geek:socks@t.geekclass.ru:7777'}
+import os
+import psycopg2
+
+DATABASE_URL = os.environ['conn = psycopg2.connect(DATABASE_URL, sslmode='require')']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 import constants
 import kb
