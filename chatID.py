@@ -2,3 +2,4 @@ Vasay = 376338011
 Nastay = 300779633
 Dmitriy = 395914196
 Ilay = 309688648
+Vorona = 887553473
