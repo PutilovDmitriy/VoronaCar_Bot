@@ -4,7 +4,7 @@ import telebot
 import os
 import psycopg2
 
-DATABASE_URL = os.environ['conn = psycopg2.connect(DATABASE_URL, sslmode='require')']
+DATABASE_URL = os.environ['postgres://ixhjyqlrhcrouk:0eaf1e526cffba07774fb2445397878c687f874a81f382784716daa3c9a40347@ec2-54-235-86-101.compute-1.amazonaws.com:5432/d2nb4u2sfnrt8o']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 import constants
@@ -19,8 +19,6 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute('SELECT ID FROM Variables')
-    records = cursor.fetchall()
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -43,7 +41,6 @@ def start_message(message):
     admin_text = False
     chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    bot.send_message(chatID.Dmitriy, str(records) + "Привет лох")
 
 
 @bot.message_handler(commands=['Назад'])
