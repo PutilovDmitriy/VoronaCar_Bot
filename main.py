@@ -1,3 +1,4 @@
+import cursor as cursor
 import telebot
 
 import os
@@ -18,6 +19,8 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    cursor.execute('SELECT ID FROM Variables')
+    records = cursor.fetchall()
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -40,6 +43,7 @@ def start_message(message):
     admin_text = False
     chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
+    bot.send_message(chatID.Dmitriy, str(records) + "Привет лох")
 
 
 @bot.message_handler(commands=['Назад'])
