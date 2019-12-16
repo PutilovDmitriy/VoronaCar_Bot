@@ -1,11 +1,5 @@
-import cursor as cursor
+import psycopg2 as psycopg2
 import telebot
-
-import os
-import psycopg2
-
-DATABASE_URL = os.environ['postgres://ixhjyqlrhcrouk:0eaf1e526cffba07774fb2445397878c687f874a81f382784716daa3c9a40347@ec2-54-235-86-101.compute-1.amazonaws.com:5432/d2nb4u2sfnrt8o']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 import constants
 import kb
