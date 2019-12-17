@@ -18,13 +18,10 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute("select exists(select 1 from variables where id_chat=message.chat.id)")
-    da=cursor.fetchall()
-
     #cursor.execute("SELECT id_chat, kb1 from variables")
     #rows = cursor.fetchall()
     #for row in rows:
-        #testbd = str(row[0])
+     #   testbd = str(row[0])
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -47,7 +44,7 @@ def start_message(message):
     admin_text = False
     chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    bot.send_message(message.chat.id, str(da))
+    #bot.send_message(message.chat.id, testbd)
 
 
 @bot.message_handler(commands=['Назад'])
