@@ -6,6 +6,14 @@ import chatID
 import nameCategory
 import reply
 import re
+import os
+import psycopg2
+
+DATABASE_URL = os.environ['postgres://yzluaullcfqgju:eed018f99ab7d25475295e67fa94e44a1dd7175b12cafc1171c65fae3788d0f2' \
+                          '@ec2-174-129-33-97.compute-1.amazonaws.com:5432/do9oe5f35bgi6']
+
+con = psycopg2.connect(DATABASE_URL, sslmode='require')
+cursor = con.cursor()
 
 bot = telebot.TeleBot(constants.token)
 
