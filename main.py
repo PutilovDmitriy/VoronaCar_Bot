@@ -1,5 +1,4 @@
 import telebot
-
 import constants
 import kb
 import menu
@@ -71,19 +70,19 @@ def back_message(message):
         menu.kb13_1 = False
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
     elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
-        bot.send_message(message.chat.id, reply.r02, reply_markup = kb.keyboard2)
+        bot.send_message(message.chat.id, reply.r02, reply_markup=kb.keyboard2)
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
-        bot.send_message(message.chat.id, reply.r03, reply_markup = kb.keyboard3)
+        bot.send_message(message.chat.id, reply.r03, reply_markup=kb.keyboard3)
     elif menu.kb4 == True:
         menu.kb4 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard4)
     elif menu.kb4_2 == True:
-         menu.kb4_2 = False
-         menu.kb4 = True
-         bot.send_message(message.chat.id, reply.r42, reply_markup=kb.keyboard4)
+        menu.kb4_2 = False
+        menu.kb4 = True
+        bot.send_message(message.chat.id, reply.r42, reply_markup=kb.keyboard4)
     else:
         bot.send_message(message.chat.id, "Error")
 
@@ -100,7 +99,7 @@ def handle_text(message):
     elif message.text == nameCategory.c04:
         bot.send_message(message.chat.id, reply.r04, reply_markup=kb.keyboard4)
 
-# keyboard1 Состояние авто
+    # keyboard1 Состояние авто
     elif message.text == nameCategory.c111:
         menu.kb1 = True
         menu.kb111 = True
@@ -142,24 +141,25 @@ def handle_text(message):
         menu.kb122 = False
         bot.send_message(message.chat.id, reply.R1)
 
-# keyboard1 обработчик номера телефона
+    # keyboard1 обработчик номера телефона
     elif menu.kb1 == True:
-          if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
+        if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             menu.kb1 = False
             menu.start = False
             menu.tel = message.text
             bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
-          else:
+        else:
             bot.send_message(message.chat.id, reply.tel)
-# Номер авто
-# 1 - 4
+    # Номер авто
+    # 1 - 4
     elif menu.kb111 == True:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             menu.kb111 = False
             menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (nameCategory.c111 + " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
+            bot.send_message(chatID.Dmitriy, (
+                    nameCategory.c111 + " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             menu.number_auto = ""
             menu.tel = ""
         else:
@@ -171,7 +171,8 @@ def handle_text(message):
             menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (nameCategory.c112+ " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
+            bot.send_message(chatID.Dmitriy, (
+                    nameCategory.c112 + " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             menu.number_auto = ""
             menu.tel = ""
         else:
@@ -183,7 +184,8 @@ def handle_text(message):
             menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (nameCategory.c121 + " у автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
+            bot.send_message(chatID.Dmitriy, (
+                    nameCategory.c121 + " у автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             menu.number_auto = ""
             menu.tel = ""
         else:
@@ -195,13 +197,14 @@ def handle_text(message):
             menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (nameCategory.c122 + " в автомобиле c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
+            bot.send_message(chatID.Dmitriy, (
+                    nameCategory.c122 + " в автомобиле c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             menu.number_auto = ""
             menu.tel = ""
         else:
             bot.send_message(message.chat.id, reply.number)
 
-# 5 Описание проблемы
+    # 5 Описание проблемы
     elif menu.kb13 == True:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             menu.kb13 = False
@@ -216,12 +219,13 @@ def handle_text(message):
         menu.start = True
         menu.condition = message.text
         bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard1)
-        bot.send_message(chatID.Dmitriy, ("Автомобиль c номером " + menu.number_auto + " (Тел: " + menu.tel + ") /// " + menu.condition))
+        bot.send_message(chatID.Dmitriy, (
+                "Автомобиль c номером " + menu.number_auto + " (Тел: " + menu.tel + ") /// " + menu.condition))
         menu.tel = ""
         menu.number_auto = ""
         menu.condition = ""
 
-# keyboard2 Нужна помощь, проблема
+    # keyboard2 Нужна помощь, проблема
     elif message.text == nameCategory.c211:
         menu.kb211 = True
         menu.start = False
@@ -239,8 +243,8 @@ def handle_text(message):
         menu.start = False
         bot.send_message(message.chat.id, reply.R2, reply_markup=kb.keyboardL)
     elif message.text == nameCategory.c23:
-        bot.send_message(message.chat.id, "+79991255722",reply_markup=kb.keyboard0 )
-#keyboard2 обработчик номера телефона
+        bot.send_message(message.chat.id, "+79991255722", reply_markup=kb.keyboard0)
+    # keyboard2 обработчик номера телефона
     elif menu.kb211 == True:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             menu.kb211 = False
@@ -273,7 +277,7 @@ def handle_text(message):
             bot.send_message(chatID.Dmitriy, nameCategory.c222 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
- # keyboard3 FAQ
+    # keyboard3 FAQ
     elif message.text == nameCategory.c31:
         bot.send_message(message.chat.id, reply.r31)
     elif message.text == nameCategory.c32:
@@ -319,7 +323,7 @@ def handle_text(message):
 
 
 
-# keyboard 4 Заправка автомобиля
+    # keyboard 4 Заправка автомобиля
     elif message.text == nameCategory.c41:
         menu.kb4 = False
         bot.send_message(message.chat.id, reply.r41)
@@ -337,11 +341,11 @@ def handle_text(message):
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb4_2 == True:
         bot.send_message(message.chat.id, reply.r4_2)
-#admin send_message
-    elif message.text == "admin_start":
+# admin send_message
+    elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
         menu.admin = True
         menu.start = False
-        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode = 'HTML', reply_markup = kb.keyboardAdmin)
+        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
     elif menu.admin == True:
         menu.admin = False
         menu.admin_text = True
@@ -354,9 +358,10 @@ def handle_text(message):
         bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
     elif menu.admin_text == True:
         bot.send_message(menu.chatIdUser, message.text)
-# ELSE
+    # ELSE
     else:
-        bot.send_message(message.chat.id, 'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
+        bot.send_message(message.chat.id,
+                         'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
 
 
 @bot.message_handler(content_types=['photo', 'document'])
@@ -368,5 +373,6 @@ def handle_docs_audio(message):
         bot.send_message(chatID.Dmitriy, menu.tel)
         bot.forward_message(chatID.Dmitriy, message.chat.id, message.message_id)
         menu.tel = ""
+
 
 bot.polling(none_stop=True, interval=0)
