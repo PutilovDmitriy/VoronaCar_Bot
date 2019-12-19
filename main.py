@@ -19,34 +19,35 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    # cursor.execute("SELECT * from variables where id_chat = %s;" , [message.chat.id])
-    # rows = cursor.fetchall()
-    # for row in rows:
-    #     testdll = str(row[0])
-    menu.start = True
-    menu.kb1 = False
-    menu.kb2 = False
-    menu.kb3 = False
-    menu.kb4 = False
-    menu.kb111 = False
-    menu.kb112 = False
-    menu.kb121 = False
-    menu.kb122 = False
-    menu.kb13 = False
-    menu.kb13_1 = False
-    menu.kb211 = False
-    menu.kb212 = False
-    menu.kb221 = False
-    menu.kb222 = False
-    menu.kb317 = False
-    menu.tel = ""
-    menu.number_auto = ""
-    menu.condition = ""
-    menu.admin = False
-    menu.admin_text = False
-    menu.chatIdUser = 0
+    if cursor.execute("exists(SELECT * from variables where id_chat = %s;)", [message.chat.id]):
+        cursor.execute("""UPDATE variables
+                set menu.start = True
+                menu.kb1 = False
+                menu.kb2 = False
+                menu.kb3 = False
+                menu.kb4 = False
+                menu.kb4_2 = False
+                menu.kb111 = False
+                menu.kb112 = False
+                menu.kb121 = False
+                menu.kb122 = False
+                menu.kb13 = False
+                menu.kb13_1 = False
+                menu.kb211 = False
+                menu.kb212 = False
+                menu.kb221 = False
+                menu.kb222 = False
+                menu.kb317 = False
+                menu.tel = ""
+                menu.number_auto = ""
+                menu.condition = ""                       
+            where id_chat = %s;""", [message.chat.id])
+        conn.commit()
+    else:
+        cursor.execute("""INSERT INTO variables (id_chat,start,kb1, kb2,  kb3, kb4,  kb4_2,kb111,kb112,kb121,kb122,kb13,kb13_1,kb211,kb212,kb221,kb222,kb317, number_auto,tel,condition) 
+        VALUES (%s;, True, False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,'a888aa', '1234567890',  'norm' )""",
+                       [message.chat.id])
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    # bot.send_message(message.chat.id, testdll, reply_markup=kb.keyboard0)
 
 
 @bot.message_handler(commands=['Назад'])
@@ -77,48 +78,88 @@ def back_message(message):
     #     tel = row[19]
     #     condition = row[20]
     if menu.start == True:
-        menu.kb1 = False
-        menu.kb2 = False
-        menu.kb3 = False
-        menu.kb4 = False
-        menu.kb111 = False
-        menu.kb112 = False
-        menu.kb121 = False
-        menu.kb122 = False
-        menu.kb13 = False
-        menu.kb13_1 = False
-        menu.kb211 = False
-        menu.kb212 = False
-        menu.kb221 = False
-        menu.kb222 = False
-        menu.tel = ""
-        menu.number_auto = ""
-        menu.condition = ""
+        cursor.execute("""
+          UPDATE variables
+          set   menu.kb1 = False
+                menu.kb2 = False
+                menu.kb3 = False
+                menu.kb4 = False
+                menu.kb4_2 = False
+                menu.kb111 = False
+                menu.kb112 = False
+                menu.kb121 = False
+                menu.kb122 = False
+                menu.kb13 = False
+                menu.kb13_1 = False
+                menu.kb211 = False
+                menu.kb212 = False
+                menu.kb221 = False
+                menu.kb222 = False
+                kb317 = False
+                menu.tel = ""
+                menu.number_auto = ""
+                menu.condition = ""
+          where id_chat = %s;""", [message.chat.id])
+        conn.commit()
+        # menu.kb1 = False
+        # menu.kb2 = False
+        # menu.kb3 = False
+        # menu.kb4 = False
+        # menu.kb4_2 = False
+        # menu.kb111 = False
+        # menu.kb112 = False
+        # menu.kb121 = False
+        # menu.kb122 = False
+        # menu.kb13 = False
+        # menu.kb13_1 = False
+        # menu.kb211 = False
+        # menu.kb212 = False
+        # menu.kb221 = False
+        # menu.kb222 = False
+        # kb317 = False
+        # menu.tel = ""
+        # menu.number_auto = ""
+        # menu.condition = ""
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
     elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True:
+        # cursor.execute("UPDATE variables set kb1 = False where id_chat = %s;", [some_id])
+        # conn.commit()
         menu.start = True
         menu.kb1 = True
         menu.kb111 = False
         menu.kb112 = False
         menu.kb121 = False
         menu.kb122 = False
-        menu.kb13 = False
         bot.send_message(message.chat.id, reply.R1, reply_markup=kb.keyboard1)
     elif menu.kb13_1 == True:
+        # cursor.execute("UPDATE variables set kb1 = False where id_chat = %s;", [some_id])
+        # conn.commit()
         menu.kb13 = True
         menu.kb13_1 = False
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
     elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
+        menu.start = True
+        menu.kb2 = True
+        menu.kb211 = False
+        menu.kb212 = False
+        menu.kb221 = False
+        menu.kb222 = False
         bot.send_message(message.chat.id, reply.r02, reply_markup=kb.keyboard2)
     elif menu.kb317 == True:
+        # cursor.execute("UPDATE variables set kb1 = False where id_chat = %s;", [some_id])
+        # conn.commit()
         menu.kb317 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.r03, reply_markup=kb.keyboard3)
     elif menu.kb4 == True:
+        # cursor.execute("UPDATE variables set kb1 = False where id_chat = %s;", [some_id])
+        # conn.commit()
         menu.kb4 = False
         menu.start = True
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard4)
     elif menu.kb4_2 == True:
+        # cursor.execute("UPDATE variables set kb1 = False where id_chat = %s;", [some_id])
+        # conn.commit()
         menu.kb4_2 = False
         menu.kb4 = True
         bot.send_message(message.chat.id, reply.r42, reply_markup=kb.keyboard4)
