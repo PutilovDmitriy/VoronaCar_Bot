@@ -19,10 +19,14 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute("SELECT * from variables where id_chat = %(message.chat.id)s")
-    rows = cursor.fetchall()
-    for row in rows:
-        testdll = str(row[0])
+    def selected_test(conn, cursor, message.chat.id):
+        query = "SELECT * from variables where id_chat = %s"
+        data = [message.chat.id]
+        cursor.execute(query, data)
+        rows = cursor.fetchall()
+            for row in rows:
+             testdll = str(row[0])
+
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
