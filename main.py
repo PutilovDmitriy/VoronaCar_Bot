@@ -40,9 +40,9 @@ def start_message(message):
     menu.tel = ""
     menu.number_auto = ""
     menu.condition = ""
-    admin = False
-    admin_text = False
-    chatIdUser = 0
+    menu.admin = False
+    menu.admin_text = False
+    menu.chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
 
 
@@ -404,20 +404,20 @@ def handle_text(message):
         bot.send_message(message.chat.id, reply.r4_2)
 # admin send_message
     elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
-        admin = True
-        start = False
+        menu.admin = True
+        menu.start = False
         bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
     elif message.text == "admin_stop":
-        admin = False
-        admin_text = False
-        start = True
-        useridshat = 0
+        menu.admin = False
+        menu.admin_text = False
+        menu.start = True
+        menu.chatIdUser = 0
         bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
-    elif admin == True:
+    elif menu.admin == True:
         menu.admin = False
         menu.admin_text = True
         menu.chatIdUser = int(message.text)
-    elif admin_text == True:
+    elif menu.admin_text == True:
         bot.send_message(menu.chatIdUser, message.text)
     # ELSE
     else:
