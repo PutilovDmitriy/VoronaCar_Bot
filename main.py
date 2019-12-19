@@ -16,12 +16,13 @@ cursor = conn.cursor()
 
 bot = telebot.TeleBot(constants.token)
 
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     cursor.execute("SELECT  from variables")
     rows = cursor.fetchall()
     for row in rows:
-       testdb = str(row[0])
+        testdll = str(row[0])
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -44,12 +45,12 @@ def start_message(message):
     menu.admin_text = False
     menu.chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    bot.send_message(message.chat.id, testdb, reply_markup=kb.keyboard0)
+    bot.send_message(message.chat.id, testdll, reply_markup=kb.keyboard0)
 
 
 @bot.message_handler(commands=['Назад'])
 def back_message(message):
-    #Получение данных из бд
+    # Получение данных из бд
     # cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
     # rows = cursor.fetchall()
     # for row in rows:
@@ -126,30 +127,30 @@ def back_message(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-# Получение данных из бд
-#     cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
-#     rows = cursor.fetchall()
-#     for row in rows:
-#         start = row[1]
-#         kb1 = row[2]
-#         kb2 = row[3]
-#         kb3 = row[4]
-#         kb4 = row[5]
-#         kb4_2 = row[6]
-#         kb111 = row[7]
-#         kb112 = row[8]
-#         kb121 = row[9]
-#         kb122 = row[10]
-#         kb13 = row[11]
-#         kb13_1 = row[12]
-#         kb211 = row[13]
-#         kb212 = row[14]
-#         kb221 = row[15]
-#         kb222 = row[16]
-#         kb317 = row[17]
-#         number_auto = row[18]
-#         tel = row[19]
-#         condition = row[20]
+    # Получение данных из бд
+    #     cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
+    #     rows = cursor.fetchall()
+    #     for row in rows:
+    #         start = row[1]
+    #         kb1 = row[2]
+    #         kb2 = row[3]
+    #         kb3 = row[4]
+    #         kb4 = row[5]
+    #         kb4_2 = row[6]
+    #         kb111 = row[7]
+    #         kb112 = row[8]
+    #         kb121 = row[9]
+    #         kb122 = row[10]
+    #         kb13 = row[11]
+    #         kb13_1 = row[12]
+    #         kb211 = row[13]
+    #         kb212 = row[14]
+    #         kb221 = row[15]
+    #         kb222 = row[16]
+    #         kb317 = row[17]
+    #         number_auto = row[18]
+    #         tel = row[19]
+    #         condition = row[20]
     # keyboard0 основное меню
     if message.text == nameCategory.c01:
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
@@ -401,7 +402,7 @@ def handle_text(message):
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb4_2 == True:
         bot.send_message(message.chat.id, reply.r4_2)
-# admin send_message
+    # admin send_message
     elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
         menu.admin = True
         menu.start = False
@@ -422,7 +423,7 @@ def handle_text(message):
     else:
         bot.send_message(message.chat.id,
                          'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
-    #Закрытие курсора
+    # Закрытие курсора
     con.close()
 
 
