@@ -19,7 +19,9 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute("SELECT * from variables")
+    cursor.execute("""SELECT * 
+            from variables
+            where id_chat = message.chat.id""")
     rows = cursor.fetchall()
     for row in rows:
         testdll = str(row[0])
