@@ -11,17 +11,17 @@ import psycopg2
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
-con = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = con.cursor()
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cursor = conn.cursor()
 
 bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    #cursor.execute("SELECT  from variables")
-    #rows = cursor.fetchall()
-    #for row in rows:
-     #   testbd = str(row[0])
+    cursor.execute("SELECT  from variables")
+    rows = cursor.fetchall()
+    for row in rows:
+       testdb = str(row[0])
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -44,6 +44,7 @@ def start_message(message):
     menu.admin_text = False
     menu.chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
+    bot.send_message(message.chat.id, testdb, reply_markup=kb.keyboard0)
 
 
 @bot.message_handler(commands=['Назад'])
