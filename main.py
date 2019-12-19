@@ -18,7 +18,7 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    #cursor.execute("SELECT id_chat, kb1 from variables")
+    #cursor.execute("SELECT  from variables")
     #rows = cursor.fetchall()
     #for row in rows:
      #   testbd = str(row[0])
@@ -44,11 +44,36 @@ def start_message(message):
     admin_text = False
     chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    #bot.send_message(message.chat.id, testbd)
 
 
 @bot.message_handler(commands=['Назад'])
 def back_message(message):
+    #Получение данных из бд
+    cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
+    rows = cursor.fetchall()
+    for row in rows:
+        # Первое меню
+        start = row[1]
+        kb1 = row[2]
+        kb2 = row[3]
+        kb3 = row[4]
+        kb4 = row[5]
+        kb4_2 = row[6]
+        kb111 = row[7]
+        kb112 = row[8]
+        kb121 = row[9]
+        kb122 = row[10]
+        kb13 = row[11]
+        kb13_1 = row[12]
+        kb211 = row[13]
+        kb212 = row[14]
+        kb221 = row[15]
+        kb222 = row[16]
+        kb317 = row[17]
+        number_auto = row[18]
+        tel = row[19]
+        condition = row[20]
+
     if menu.start == True:
         menu.kb1 = False
         menu.kb2 = False
@@ -97,10 +122,35 @@ def back_message(message):
         bot.send_message(message.chat.id, reply.r42, reply_markup=kb.keyboard4)
     else:
         bot.send_message(message.chat.id, "Error")
-
+    # Закрытие курсора
+    con.close()
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
+# Получение данных из бд
+    cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
+    rows = cursor.fetchall()
+    for row in rows:
+        start = row[1]
+        kb1 = row[2]
+        kb2 = row[3]
+        kb3 = row[4]
+        kb4 = row[5]
+        kb4_2 = row[6]
+        kb111 = row[7]
+        kb112 = row[8]
+        kb121 = row[9]
+        kb122 = row[10]
+        kb13 = row[11]
+        kb13_1 = row[12]
+        kb211 = row[13]
+        kb212 = row[14]
+        kb221 = row[15]
+        kb222 = row[16]
+        kb317 = row[17]
+        number_auto = row[18]
+        tel = row[19]
+        condition = row[20]
     # keyboard0 основное меню
     if message.text == nameCategory.c01:
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
@@ -329,9 +379,8 @@ def handle_text(message):
     elif menu.kb317 == True:
         menu.kb317 = False
         menu.start = True
-        userID = str(message.chat.id)
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chatID.Dmitriy, userID + " " + message.text)
+        bot.send_message(chatID.Dmitriy, str(message.chat.id) + " " + message.text)
 
 
 
@@ -355,25 +404,27 @@ def handle_text(message):
         bot.send_message(message.chat.id, reply.r4_2)
 # admin send_message
     elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
-        menu.admin = True
-        menu.start = False
+        admin = True
+        start = False
         bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
     elif message.text == "admin_stop":
         admin = False
         admin_text = False
-        menu.start = True
+        start = True
         useridshat = 0
         bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
-    elif menu.admin == True:
+    elif admin == True:
         menu.admin = False
         menu.admin_text = True
         menu.chatIdUser = int(message.text)
-    elif menu.admin_text == True:
+    elif admin_text == True:
         bot.send_message(menu.chatIdUser, message.text)
     # ELSE
     else:
         bot.send_message(message.chat.id,
                          'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
+    #Закрытие курсора
+    con.close()
 
 
 @bot.message_handler(content_types=['photo', 'document'])
