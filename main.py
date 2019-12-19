@@ -73,7 +73,6 @@ def back_message(message):
         number_auto = row[18]
         tel = row[19]
         condition = row[20]
-
     if menu.start == True:
         menu.kb1 = False
         menu.kb2 = False
@@ -122,8 +121,7 @@ def back_message(message):
         bot.send_message(message.chat.id, reply.r42, reply_markup=kb.keyboard4)
     else:
         bot.send_message(message.chat.id, "Error")
-    # Закрытие курсора
-    con.close()
+
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -437,5 +435,5 @@ def handle_docs_audio(message):
         bot.forward_message(chatID.Dmitriy, message.chat.id, message.message_id)
         menu.tel = ""
 
-
+con.close()
 bot.polling(none_stop=True, interval=0)
