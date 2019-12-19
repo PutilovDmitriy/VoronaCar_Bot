@@ -436,5 +436,5 @@ def handle_docs_audio(message):
         bot.forward_message(chatID.Dmitriy, message.chat.id, message.message_id)
         menu.tel = ""
 
-con.close()
+
 bot.polling(none_stop=True, interval=0)
