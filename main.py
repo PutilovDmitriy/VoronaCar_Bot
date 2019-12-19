@@ -19,10 +19,10 @@ bot = telebot.TeleBot(constants.token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute("SELECT * from variables where id_chat = %s;" , [message.chat.id])
-    rows = cursor.fetchall()
-    for row in rows:
-        testdll = str(row[0])
+    # cursor.execute("SELECT * from variables where id_chat = %s;" , [message.chat.id])
+    # rows = cursor.fetchall()
+    # for row in rows:
+    #     testdll = str(row[0])
     menu.start = True
     menu.kb1 = False
     menu.kb2 = False
@@ -33,6 +33,7 @@ def start_message(message):
     menu.kb121 = False
     menu.kb122 = False
     menu.kb13 = False
+    menu.kb13_1 = False
     menu.kb211 = False
     menu.kb212 = False
     menu.kb221 = False
@@ -45,13 +46,13 @@ def start_message(message):
     menu.admin_text = False
     menu.chatIdUser = 0
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    bot.send_message(message.chat.id, testdll, reply_markup=kb.keyboard0)
+    # bot.send_message(message.chat.id, testdll, reply_markup=kb.keyboard0)
 
 
 @bot.message_handler(commands=['Назад'])
 def back_message(message):
-    # Получение данных из бд
-    # cursor.execute("SELECT * from variables WHERE id_chat = massage.chat.id")
+    # #Получение данных из бд
+    # cursor.execute("SELECT * from variables where id_chat = %s;" , [message.chat.id])
     # rows = cursor.fetchall()
     # for row in rows:
     #     # Первое меню
@@ -423,8 +424,6 @@ def handle_text(message):
     else:
         bot.send_message(message.chat.id,
                          'Пожалуйста, используйте меню для доступа к моим функциям. Выберите интересующий вас пункт.')
-    # Закрытие курсора
-    con.close()
 
 
 @bot.message_handler(content_types=['photo', 'document'])
