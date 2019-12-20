@@ -14,7 +14,8 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
-bot = telebot.TeleBot(constants.token)
+token = os.environ('TOKEN')
+bot = telebot.TeleBot(token)
 
 
 @bot.message_handler(commands=['start'])
