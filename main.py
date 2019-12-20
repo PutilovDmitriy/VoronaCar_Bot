@@ -8,13 +8,14 @@ import reply
 import re
 import os
 import psycopg2
+from boto.s3.connection import S3Connection
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
-token = os.environ('TOKEN')
+token = S3Connection(os.environ['TOKEN'])
 bot = telebot.TeleBot(token)
 
 
