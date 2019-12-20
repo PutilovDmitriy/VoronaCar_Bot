@@ -96,8 +96,8 @@ def back_message(message):
                 kb317 = False,
                 tel = '1234567890',
                 number_auto = 'a888aa',
-                condition = 'norm',
-          where id_chat = %s""", [message.chat.id])
+                condition = 'norm'
+          WHERE id_chat = %s""", [message.chat.id])
         conn.commit()
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
     elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True:
@@ -107,7 +107,7 @@ def back_message(message):
             kb111 = False,
             kb112 = False,
             kb121 = False,
-            kb122 = False,       
+            kb122 = False       
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.start = True
