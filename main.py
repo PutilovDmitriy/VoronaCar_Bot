@@ -328,7 +328,7 @@ def handle_text(message):
             # menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (
+            bot.send_message(chatID.Vorona, (
                     nameCategory.c111 + " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             # menu.number_auto = ""
             # menu.tel = ""
@@ -348,7 +348,7 @@ def handle_text(message):
             # menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (
+            bot.send_message(chatID.Vorona, (
                     nameCategory.c112 + " автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             # menu.number_auto = ""
             # menu.tel = ""
@@ -368,7 +368,7 @@ def handle_text(message):
             # menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (
+            bot.send_message(chatID.Vorona, (
                     nameCategory.c121 + " у автомобиля c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             # menu.number_auto = ""
             # menu.tel = ""
@@ -388,7 +388,7 @@ def handle_text(message):
             # menu.start = True
             menu.number_auto = message.text
             bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, (
+            bot.send_message(chatID.Vorona, (
                     nameCategory.c122 + " в автомобиле c номером " + menu.number_auto + " (Тел: " + menu.tel + ")"))
             # menu.number_auto = ""
             # menu.tel = ""
@@ -424,7 +424,7 @@ def handle_text(message):
         # menu.start = True
         menu.condition = message.text
         bot.send_message(message.chat.id, reply.r1send, reply_markup=kb.keyboard1)
-        bot.send_message(chatID.Dmitriy, (
+        bot.send_message(chatID.Vorona, (
                 "Автомобиль c номером " + menu.number_auto + " (Тел: " + menu.tel + ") /// " + menu.condition))
         # menu.tel = ""
         # menu.number_auto = ""
@@ -484,7 +484,7 @@ def handle_text(message):
             # menu.kb211 = False
             # menu.start = True
             bot.send_message(message.chat.id, reply.r2send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, nameCategory.c211 + " " + message.text)
+            bot.send_message(chatID.Vorona, nameCategory.c211 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb212 == True:
@@ -497,7 +497,7 @@ def handle_text(message):
             # menu.kb212 = False
             # menu.start = True
             bot.send_message(message.chat.id, reply.r2send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, nameCategory.c212 + " " + message.text)
+            bot.send_message(chatID.Vorona, nameCategory.c212 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb221 == True:
@@ -510,7 +510,7 @@ def handle_text(message):
             # menu.kb221 = False
             # menu.start = True
             bot.send_message(message.chat.id, reply.r2send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, nameCategory.c221 + " " + message.text)
+            bot.send_message(chatID.Vorona, nameCategory.c221 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
     elif menu.kb222 == True:
@@ -523,7 +523,7 @@ def handle_text(message):
             # menu.kb222 = False
             # menu.start = True
             bot.send_message(message.chat.id, reply.r2send, reply_markup=kb.keyboard0)
-            bot.send_message(chatID.Dmitriy, nameCategory.c222 + " " + message.text)
+            bot.send_message(chatID.Vorona, nameCategory.c222 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
     # keyboard3 FAQ
@@ -577,7 +577,7 @@ def handle_text(message):
         # menu.kb317 = False
         # menu.start = True
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chatID.Dmitriy, str(message.chat.id) + " " + message.text)
+        bot.send_message(chatID.Vorona, str(message.chat.id) + " " + message.text)
 
 
 
@@ -615,16 +615,16 @@ def handle_text(message):
     elif menu.kb4_2 == True:
         bot.send_message(message.chat.id, reply.r4_2)
     # admin send_message
-    elif message.text == "admin_start" and message.chat.id == chatID.Dmitriy:
+    elif message.text == "admin_start" and message.chat.id == chatID.Vorona:
         menu.admin = True
         menu.start = False
-        bot.send_message(chatID.Dmitriy, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
+        bot.send_message(chatID.Vorona, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
     elif message.text == "admin_stop":
         menu.admin = False
         menu.admin_text = False
         menu.start = True
         menu.chatIdUser = 0
-        bot.send_message(chatID.Dmitriy, reply.admin_stop, reply_markup=kb.keyboard0)
+        bot.send_message(chatID.Vorona, reply.admin_stop, reply_markup=kb.keyboard0)
     elif menu.admin == True:
         menu.admin = False
         menu.admin_text = True
@@ -673,8 +673,8 @@ def handle_docs_audio(message):
         # menu.kb4_2 = False
         # menu.start = True
         bot.send_message(message.chat.id, reply.r4send, reply_markup=kb.keyboard4)
-        bot.send_message(chatID.Dmitriy, menu.tel)
-        bot.forward_message(chatID.Dmitriy, message.chat.id, message.message_id)
+        bot.send_message(chatID.Vorona, menu.tel)
+        bot.forward_message(chatID.Vorona, message.chat.id, message.message_id)
 
 
 bot.polling(none_stop=True, interval=0)
