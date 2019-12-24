@@ -115,7 +115,7 @@ def back_message(message):
         # menu.kb121 = False
         # menu.kb122 = False
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
-    elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True
+    elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True:
         cursor.execute("""UPDATE variables set
             start = True,
             kb1 = True       
