@@ -98,23 +98,24 @@ def back_message(message):
                 tel = '1234567890',
                 number_auto = 'a888aa',
                 condition = 'norm'
-          WHERE id_chat = %s""", [message.chat.id])
+        WHERE id_chat = %s""", [message.chat.id])
         conn.commit()
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    else menu.kb1 == True
-        cursor.execute("""UPDATE variables set
+    elif menu.kb1 == True:
+        cursor.execute("""
+          UPDATE variables set
             kb111 = False
             kb112 = False
             kb121 = False
             kb122 = False
-        """)
-        conn.commit
+        WHERE id_chat = %s""", [message.chat.id])
+        conn.commit()
         # menu.kb111 = False
         # menu.kb112 = False
         # menu.kb121 = False
         # menu.kb122 = False
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
-    elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True:
+    elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True
         cursor.execute("""UPDATE variables set
             start = True,
             kb1 = True       
