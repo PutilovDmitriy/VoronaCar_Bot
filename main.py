@@ -8,6 +8,7 @@ import reply
 import re
 import os
 import psycopg2
+import requests 
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
@@ -584,7 +585,7 @@ def handle_text(message):
         # menu.start = True
         bot.send_message(message.chat.id, reply.r3_17)
         bot.send_message(chatID.Vorona, str(message.chat.id) + " " + message.text)
-
+        requests.post('https://pacific-cliffs-72324.herokuapp.com/bot/add', data={'chatId': message.chat.id, 'message': message.text})
 
 
     # keyboard 4 Заправка автомобиля
