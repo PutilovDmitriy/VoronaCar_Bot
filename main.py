@@ -479,7 +479,7 @@ def handle_text(message):
         # menu.start = False
         bot.send_message(message.chat.id, reply.R2, reply_markup=kb.keyboardL)
     elif message.text == nameCategory.c23:
-        bot.send_message(message.chat.id, "+79991255722", reply_markup=kb.keyboard0)
+        bot.send_message(message.chat.id, "+79026324545", reply_markup=kb.keyboard0)
     # keyboard2 обработчик номера телефона
     elif menu.kb211 == True:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
