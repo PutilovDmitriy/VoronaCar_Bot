@@ -694,4 +694,4 @@ def handle_docs_audio(message):
         bot.send_message(chatID.Vorona, menu.tel)
         bot.forward_message(chatID.Vorona, message.chat.id, message.message_id)
 if __name__ == "__main__":
-  app.run(port=os.environ['PORT'])
+  app.run(port=os.environ['PORT'], host=0.0.0.0)
