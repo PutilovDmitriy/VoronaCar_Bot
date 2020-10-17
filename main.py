@@ -24,7 +24,8 @@ bot = telebot.TeleBot(token, threaded=False)
 
 bot.remove_webhook()
 time.sleep(1)
-bot.set_webhook(url="https://" + os.environ['HEROKU_APP_NAME'] + ".herokuapp.com/{}".format(token))
+appUrl = os.environ['URL']
+bot.set_webhook(url=appUrl + "{}".format(token))
 
 app = Flask(__name__)
 
