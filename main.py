@@ -28,13 +28,16 @@ bot.set_webhook(url=appUrl + "{}".format(token))
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
 
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
 
 @app.route('/api/stop-chat/<stop_id>', methods=['GET', 'POST'])
 def send_message(stop_id):
@@ -44,6 +47,7 @@ def send_message(stop_id):
             WHERE id_chat = %s""", [stop_id])
     conn.commit()
     return "ok", 200
+
 
 @app.route('/{}'.format(token), methods=['POST'])
 def webhook():
@@ -702,5 +706,7 @@ def handle_docs_audio(message):
         bot.send_message(message.chat.id, reply.r4send, reply_markup=kb.keyboard4)
         bot.send_message(chatID.Vorona, menu.tel)
         bot.forward_message(chatID.Vorona, message.chat.id, message.message_id)
+
+
 if __name__ == "__main__":
-  app.run(port=os.environ['PORT'], host='0.0.0.0',)
+    app.run(port=os.environ['PORT'])
