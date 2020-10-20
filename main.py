@@ -19,13 +19,14 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
+app_name = os.environ['APP_NAME']
 token = os.environ['TOKEN']
+
 bot = telebot.TeleBot(token, threaded=False)
 
 bot.remove_webhook()
 time.sleep(1)
-appUrl = os.environ['URL']
-bot.set_webhook(url=appUrl + "{}".format(token))
+bot.set_webhook(url="https://{}.herokuapp.com/{}".format(app_name, token))
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -711,4 +712,4 @@ def handle_docs_audio(message):
 
 
 if __name__ == "__main__":
-    app.run(port=os.environ['PORT'], threaded=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
