@@ -34,13 +34,9 @@ app.config['DEBUG'] = True
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
-
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
+    bot.remove_webhook()
+    bot.set_webhook(url="https://{}.herokuapp.com/{}".format(app_name, token))
+    return "Hello from Heroku!", 200
 
 @app.route('/api/stop-chat/<stop_id>', methods=['GET', 'POST'])
 def send_message(stop_id):
@@ -52,7 +48,7 @@ def send_message(stop_id):
     return "ok", 200
 
 
-@app.route('/{}'.format(token), methods=['POST'])
+@app.route("/" + token, methods=['POST'])
 def webhook():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "ok", 200
