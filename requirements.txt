@@ -19,10 +19,12 @@ mccabe==0.6.1
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
 pylint==2.6.0
+pyTelegramBotAPI==3.7.3
 requests==2.7.0
 six==1.13.0
 telebot==0.0.3
 toml==0.10.1
 urllib3==1.25.11
+virtualenv==16.7.8
 Werkzeug==1.0.1
 wrapt==1.11.2

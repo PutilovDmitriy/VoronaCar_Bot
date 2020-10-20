@@ -1,5 +1,6 @@
 import os
 import re
+import time
 
 import psycopg2
 import telebot
@@ -21,6 +22,8 @@ cursor = conn.cursor()
 token = os.environ['TOKEN']
 bot = telebot.TeleBot(token, threaded=False)
 
+bot.remove_webhook()
+time.sleep(1)
 appUrl = os.environ['URL']
 bot.set_webhook(url=appUrl + "{}".format(token))
 
