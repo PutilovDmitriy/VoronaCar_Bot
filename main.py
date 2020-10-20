@@ -709,4 +709,4 @@ def handle_docs_audio(message):
 
 
 if __name__ == "__main__":
-    app.run(port=os.environ['PORT'])
+    app.run(port=os.environ['PORT'], threaded=True)
