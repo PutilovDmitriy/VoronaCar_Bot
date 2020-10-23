@@ -1,28 +1,63 @@
+import os
+import re
+import time
+
+import psycopg2
 import telebot
-import constants
-import kb
-import menu
+from flask import Flask, request
+
 import chatID
+import menu
+import req
+import kb
 import nameCategory
 import reply
-import re
-import os
-import psycopg2
-import requests 
+
+isActiveChat = False
 
 DATABASE_URL = os.environ['DATABASE_URL']
-
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
 
+app_name = os.environ['APP_NAME']
 token = os.environ['TOKEN']
-bot = telebot.TeleBot(token)
+
+bot = telebot.TeleBot(token, threaded=False)
+
+bot.remove_webhook()
+time.sleep(1)
+bot.set_webhook(url="https://{}.herokuapp.com/{}".format(app_name, token))
+
+app = Flask(__name__)
+app.config['DEBUG'] = True
+
+
+@app.route('/')
+def hello_world():
+    bot.remove_webhook()
+    bot.set_webhook(url="https://{}.herokuapp.com/{}".format(app_name, token))
+    return "Hello from Heroku!", 200
+
+@app.route('/api/stop-chat/<stop_id>', methods=['GET', 'POST'])
+def send_message(stop_id):
+    cursor.execute("""
+              UPDATE variables set
+                chat = False
+            WHERE id_chat = %s""", [stop_id])
+    conn.commit()
+    return "ok", 200
+
+
+@app.route("/" + token, methods=['POST'])
+def webhook():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "ok", 200
 
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    cursor.execute("""INSERT INTO variables 
-                (id_chat, start, kb1, kb2,  kb3, kb4,  kb4_2, kb111, kb112, kb121, kb122, kb13, kb13_1, kb211, kb212, kb221, kb222, kb317, number_auto, tel, condition)     
+    cursor.execute("""INSERT INTO variables
+                (id_chat, start, kb1, kb2,  kb3, kb4,  kb4_2, kb111, kb112, kb121, kb122, kb13, kb13_1, kb211, kb212, kb221, kb222, kb317, number_auto, tel, condition)
                 VALUES (%s, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, 'a888aa', '1234567890',  'norm' )
                 ON CONFLICT (id_chat)
                 DO UPDATE SET
@@ -44,15 +79,17 @@ def start_message(message):
                 kb222 = False,
                 kb317 = False,
                 number_auto = 'a888aa',
-                tel = '1234567890',                
-                condition = 'norm'""", [message.chat.id])
+                tel = '1234567890',
+                condition = 'norm',
+                chat = False""",
+                   [message.chat.id])
     conn.commit()
     bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
 
 
 @bot.message_handler(commands=['Назад'])
 def back_message(message):
-    #Получение данных из бд
+    # Получение данных из бд
     cursor.execute("""SELECT * from variables where id_chat = %s""", [message.chat.id])
     rows = cursor.fetchall()
     for row in rows:
@@ -77,9 +114,9 @@ def back_message(message):
         menu.number_auto = row[18]
         menu.tel = row[19]
         menu.condition = row[20]
-    if menu.start == True:
+    if menu.start:
         cursor.execute("""
-          UPDATE variables set   
+          UPDATE variables set
                 kb1 = False,
                 kb2 = False,
                 kb3 = False,
@@ -102,7 +139,7 @@ def back_message(message):
         WHERE id_chat = %s""", [message.chat.id])
         conn.commit()
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard0)
-    elif menu.kb1 == True:
+    elif menu.kb1:
         cursor.execute("""
           UPDATE variables set
             kb111 = False
@@ -116,32 +153,32 @@ def back_message(message):
         # menu.kb121 = False
         # menu.kb122 = False
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
-    elif menu.kb111 == True or menu.kb112 == True or menu.kb121 == True or menu.kb122 == True or menu.kb13 == True:
+    elif menu.kb111 or menu.kb112 or menu.kb121 or menu.kb122 or menu.kb13:
         cursor.execute("""UPDATE variables set
             start = True,
-            kb1 = True       
+            kb1 = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.start = True
         # menu.kb1 = True
         bot.send_message(message.chat.id, reply.R1, reply_markup=kb.keyboardL)
-    elif menu.kb13_1 == True:
+    elif menu.kb13_1:
         cursor.execute("""UPDATE variables set
             kb13 = True,
-            kb13_1 = False       
+            kb13_1 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb13 = True
         # menu.kb13_1 = False
         bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
-    elif menu.kb211 == True or menu.kb212 == True or menu.kb221 == True or menu.kb222 == True:
+    elif menu.kb211 or menu.kb212 or menu.kb221 or menu.kb222 == True:
         cursor.execute("""UPDATE variables set
             start = True,
             kb2 = True,
             kb211 = False,
             kb212 = False,
             kb221 = False,
-            kb222 = False      
+            kb222 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.start = True
@@ -151,28 +188,28 @@ def back_message(message):
         # menu.kb221 = False
         # menu.kb222 = False
         bot.send_message(message.chat.id, reply.r02, reply_markup=kb.keyboard2)
-    elif menu.kb317 == True:
+    elif menu.kb317:
         cursor.execute("""UPDATE variables set
             kb317 = False,
-            start = True              
+            start = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb317 = False
         # menu.start = True
         bot.send_message(message.chat.id, reply.r03, reply_markup=kb.keyboard3)
-    elif menu.kb4 == True:
+    elif menu.kb4:
         cursor.execute("""UPDATE variables set
             kb4 = False,
-            start = True              
+            start = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb4 = False
         # menu.start = True
         bot.send_message(message.chat.id, reply.start, reply_markup=kb.keyboard4)
-    elif menu.kb4_2 == True:
+    elif menu.kb4_2:
         cursor.execute("""UPDATE variables set
             kb4_2 = False,
-            kb4 = True              
+            kb4 = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb4_2 = False
@@ -209,6 +246,7 @@ def handle_text(message):
         menu.number_auto = row[18]
         menu.tel = row[19]
         menu.condition = row[20]
+        isActiveChat = row[21]
     if message.text == nameCategory.c01:
         bot.send_message(message.chat.id, reply.r01, reply_markup=kb.keyboard1)
     elif message.text == nameCategory.c02:
@@ -226,7 +264,7 @@ def handle_text(message):
             kb112 = False,
             kb121 = False,
             kb122 = False,
-            kb13 = False       
+            kb13 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb1 = True
@@ -243,7 +281,7 @@ def handle_text(message):
             kb111 = False,
             kb121 = False,
             kb122 = False,
-            kb13 = False       
+            kb13 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb1 = True
@@ -258,9 +296,9 @@ def handle_text(message):
             kb1 = True,
             kb121 = True,
             kb111 = False,
-            kb112 = False,            
+            kb112 = False,
             kb122 = False,
-            kb13 = False       
+            kb13 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb1 = True
@@ -275,9 +313,9 @@ def handle_text(message):
             kb1 = True,
             kb122 = True,
             kb111 = False,
-            kb112 = False,            
+            kb112 = False,
             kb121 = False,
-            kb13 = False       
+            kb13 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb1 = True
@@ -292,9 +330,9 @@ def handle_text(message):
             kb1 = True,
             kb13 = True,
             kb111 = False,
-            kb112 = False,            
+            kb112 = False,
             kb121 = False,
-            kb122 = False       
+            kb122 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb1 = True
@@ -306,29 +344,29 @@ def handle_text(message):
         bot.send_message(message.chat.id, reply.R1)
 
     # keyboard1 обработчик номера телефона
-    elif menu.kb1 == True:
+    elif menu.kb1:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb1 = False,
                 start = False,
-                tel = %s     
+                tel = %s
             where id_chat = %s""", [message.text, message.chat.id])
             conn.commit()
             # menu.kb1 = False
             # menu.start = False
-            #menu.tel = message.text
+            # menu.tel = message.text
             bot.send_message(message.chat.id, reply.R1_1, reply_markup=kb.keyboardL)
         else:
             bot.send_message(message.chat.id, reply.tel)
     # Номер авто
     # 1 - 4
-    elif menu.kb111 == True:
+    elif menu.kb111:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             cursor.execute("""UPDATE variables set
                 kb111 = False,
                 start = True,
                 number_auto = 'a888a',
-                tel = '1234567890'                
+                tel = '1234567890'
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb111 = False
@@ -342,13 +380,13 @@ def handle_text(message):
         else:
             bot.send_message(message.chat.id, reply.number)
 
-    elif menu.kb112 == True:
+    elif menu.kb112:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             cursor.execute("""UPDATE variables set
                 kb112 = False,
                 start = True,
                 number_auto = 'a888a',
-                tel = '1234567890'                
+                tel = '1234567890'
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb112 = False
@@ -362,13 +400,13 @@ def handle_text(message):
         else:
             bot.send_message(message.chat.id, reply.number)
 
-    elif menu.kb121 == True:
+    elif menu.kb121:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             cursor.execute("""UPDATE variables set
                 kb121 = False,
                 start = True,
                 number_auto = 'a888a',
-                tel = '1234567890'                
+                tel = '1234567890'
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb121 = False
@@ -382,13 +420,13 @@ def handle_text(message):
         else:
             bot.send_message(message.chat.id, reply.number)
 
-    elif menu.kb122 == True:
+    elif menu.kb122:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             cursor.execute("""UPDATE variables set
                 kb122 = False,
                 start = True,
                 number_auto = 'a888a',
-                tel = '1234567890'                
+                tel = '1234567890'
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb122 = False
@@ -403,12 +441,12 @@ def handle_text(message):
             bot.send_message(message.chat.id, reply.number)
 
     # 5 Описание проблемы
-    elif menu.kb13 == True:
+    elif menu.kb13:
         if re.match(r'[a-zA-Zа-яА-Я]{1}[0-9]{3}[a-zA-Zа-яА-Я]{2}', message.text):
             cursor.execute("""UPDATE variables set
                 kb13 = False,
                 kb13_1 = True,
-                number_auto = %s               
+                number_auto = %s
             where id_chat = %s""", [message.text, message.chat.id])
             conn.commit()
             # menu.kb13 = False
@@ -418,13 +456,13 @@ def handle_text(message):
         else:
             bot.send_message(message.chat.id, reply.number)
 
-    elif menu.kb13_1 == True:
+    elif menu.kb13_1:
         cursor.execute("""UPDATE variables set
             kb13_1 = False,
             start = True,
             tel = '1234567890'
             number_auto = 'a888a'
-            condition = 'norm'                           
+            condition = 'norm'
         where id_chat = %s""", [message.text, message.chat.id])
         conn.commit()
         # menu.kb13_1 = False
@@ -442,7 +480,7 @@ def handle_text(message):
         cursor.execute("""UPDATE variables set
             kb211 = True,
             start = False,
-            number_auto = %s               
+            number_auto = %s
          where id_chat = %s""", [message.text, message.chat.id])
         conn.commit()
         # menu.kb211 = True
@@ -452,7 +490,7 @@ def handle_text(message):
         cursor.execute("""UPDATE variables set
             kb212 = True,
             start = False,
-            number_auto = %s               
+            number_auto = %s
         where id_chat = %s""", [message.text, message.chat.id])
         conn.commit()
         # menu.kb212 = True
@@ -462,7 +500,7 @@ def handle_text(message):
         cursor.execute("""UPDATE variables set
             kb221 = True,
             start = False,
-            number_auto = %s               
+            number_auto = %s
         where id_chat = %s""", [message.text, message.chat.id])
         conn.commit()
         # menu.kb221 = True
@@ -472,7 +510,7 @@ def handle_text(message):
         cursor.execute("""UPDATE variables set
             kb222 = True,
             start = False,
-            number_auto = %s               
+            number_auto = %s
         where id_chat = %s""", [message.text, message.chat.id])
         conn.commit()
         # menu.kb222 = True
@@ -481,11 +519,11 @@ def handle_text(message):
     elif message.text == nameCategory.c23:
         bot.send_message(message.chat.id, "+79026324545", reply_markup=kb.keyboard0)
     # keyboard2 обработчик номера телефона
-    elif menu.kb211 == True:
+    elif menu.kb211:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb211 = False,
-                start = True             
+                start = True
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb211 = False
@@ -494,11 +532,11 @@ def handle_text(message):
             bot.send_message(chatID.Vorona, nameCategory.c211 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
-    elif menu.kb212 == True:
+    elif menu.kb212:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb212 = False,
-                start = True             
+                start = True
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb212 = False
@@ -507,11 +545,11 @@ def handle_text(message):
             bot.send_message(chatID.Vorona, nameCategory.c212 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
-    elif menu.kb221 == True:
+    elif menu.kb221:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb221 = False,
-                start = True         
+                start = True
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb221 = False
@@ -520,11 +558,11 @@ def handle_text(message):
             bot.send_message(chatID.Vorona, nameCategory.c221 + " " + message.text)
         else:
             bot.send_message(message.chat.id, reply.tel)
-    elif menu.kb222 == True:
+    elif menu.kb222:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb222 = False,
-                start = True          
+                start = True
             where id_chat = %s""", [message.chat.id])
             conn.commit()
             # menu.kb222 = False
@@ -569,47 +607,47 @@ def handle_text(message):
     elif message.text == nameCategory.c317:
         cursor.execute("""UPDATE variables set
             kb317 = True,
-            start = False             
+            start = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb317 = True
         # menu.start = False
         bot.send_message(message.chat.id, reply.r317, reply_markup=kb.keyboardL)
-    elif menu.kb317 == True:
+    elif menu.kb317:
         cursor.execute("""UPDATE variables set
             kb317 = False,
-            start = True             
+            start = True,
+            chat = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb317 = False
         # menu.start = True
         bot.send_message(message.chat.id, reply.r3_17)
-        bot.send_message(chatID.Vorona, str(message.chat.id) + " " + message.text)
-        requests.post('https://pacific-cliffs-72324.herokuapp.com/bot/add', data={'chatId': message.chat.id, 'message': message.text})
+        req.send_data(message.chat.id, message.text, message.from_user.first_name)
 
 
     # keyboard 4 Заправка автомобиля
     elif message.text == nameCategory.c41:
         cursor.execute("""UPDATE variables set
-            kb4 = False         
+            kb4 = False
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb4 = False
         bot.send_message(message.chat.id, reply.r41)
     elif message.text == nameCategory.c42:
         cursor.execute("""UPDATE variables set
-            kb4 = True            
+            kb4 = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb4 = True
         bot.send_message(message.chat.id, reply.r42)
-    elif menu.kb4 == True:
+    elif menu.kb4:
         if re.match(r'[7-8]{1}[0-9]{10}', message.text) or re.match(r'[+]{1}[7-8]{1}[0-9]{10}', message.text):
             cursor.execute("""UPDATE variables set
                 kb4 = False,
                 start = False,
                 kb4_2 = True,
-                tel = %s                            
+                tel = %s
             where id_chat = %s""", [message.text, message.chat.id])
             conn.commit()
             # menu.kb4 = False
@@ -619,25 +657,10 @@ def handle_text(message):
             bot.send_message(message.chat.id, reply.r4_2, reply_markup=kb.keyboardL)
         else:
             bot.send_message(message.chat.id, reply.tel)
-    elif menu.kb4_2 == True:
+    elif menu.kb4_2:
         bot.send_message(message.chat.id, reply.r4_2)
-    # admin send_message
-    elif message.text == "admin_start" and message.chat.id == chatID.Vorona:
-        menu.admin = True
-        menu.start = False
-        bot.send_message(chatID.Vorona, reply.admin_start, parse_mode='HTML', reply_markup=kb.keyboardAdmin)
-    elif message.text == "admin_stop":
-        menu.admin = False
-        menu.admin_text = False
-        menu.start = True
-        menu.chatIdUser = 0
-        bot.send_message(chatID.Vorona, reply.admin_stop, reply_markup=kb.keyboard0)
-    elif menu.admin == True:
-        menu.admin = False
-        menu.admin_text = True
-        menu.chatIdUser = int(message.text)
-    elif menu.admin_text == True:
-        bot.send_message(menu.chatIdUser, message.text)
+    elif isActiveChat:
+        req.send_data(message.chat.id, message.text, message.from_user.first_name)
     # ELSE
     else:
         bot.send_message(message.chat.id,
@@ -671,10 +694,10 @@ def handle_docs_audio(message):
         menu.number_auto = row[18]
         menu.tel = row[19]
         menu.condition = row[20]
-    if menu.kb4_2 == True:
+    if menu.kb4_2:
         cursor.execute("""UPDATE variables set
             kb4_2 = False,
-            start = True      
+            start = True
         where id_chat = %s""", [message.chat.id])
         conn.commit()
         # menu.kb4_2 = False
@@ -684,4 +707,5 @@ def handle_docs_audio(message):
         bot.forward_message(chatID.Vorona, message.chat.id, message.message_id)
 
 
-bot.polling(none_stop=True, interval=0)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
